@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:," />
+    <title>Vue.Js Pet Depot</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script
+      src="https://kit.fontawesome.com/e712731f30.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1 v-text="sitename"></h1>
+        <button v-on:click="showCheckout">
+          {{cartItemCount}}
+          <span class="fa-solid fa-cart-shopping"></span>
+          Checkout
+        </button>
+      </header>
+      <main>
+        <div v-if="showProduct">
+          <figure>
+            <img v-bind:src="product.image" alt="" />
+          </figure>
+          <h2 v-text="product.title"></h2>
+          <p v-text="product.description"></p>
+          <!-- instead of v-text {{mustache syntax}} 
+               btr to use v-on -->
+          <p>Price: {{product.price}}</p>
+          <p>Available Inventory: {{product.availableInventory}}</p>
+          <button v-on:click="addToCart" v-if="canAddToCart">
+            Add to Cart
+          </button>
+          <button disabled="disabled" v-else>Add to cart</button>
+        </div>
+        <div v-else>
+          <h2>CHECKOUT PAGE</h2>
+        </div>
+      </main>
+    </div>
+    <script>
+      //VCS? What versioning do we use?
+      //Git uses what approach? snapshot-based
+      //toggle operator = turnary operator, first time its set to true
+      let webstore = new Vue({
+        el: "#app",
+        data: {
+          sitename: "Vue.Js Pet Depot",
+          showProduct: true,
+          product: {
+            id: 1001,
+            title: "Cat Food, 25lb bag",
+            description:
+              "A 25 pound bag of irresistible organic goodness for your cat",
+            price: 2000,
+            image: "images/product_image.png",
+            availableInventory: 5,
+          },
+          cart: [],
+        },
+        methods: {
+          addToCart: function () {
+            this.cart.push(this.product.id);
+          },
+          showCheckout() {
+            this.showProduct = this.showProduct ? false : true;
+          },
+        },
+        computed: {
+          cartItemCount: function () {
+            return this.cart.length || "";
+          },
+          canAddToCart: function () {
+            return this.product.availableInventory > this.cartItemCount;
+            product.availableInventory;
+          },
+        },
+      });
+      //inspect using vue instance variable
+      //v-text, v-bind, v-html
+      //CDN full form?
+      // computed properties? doesnt take parameters
+      // dont use font awesome vue version, only html
+    </script>
+  </body>
+</html>
